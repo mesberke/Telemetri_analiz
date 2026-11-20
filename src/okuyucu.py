@@ -23,6 +23,11 @@ def split_logs():
         if id == 0:
             keys = data.split(",")
             continue
+        values = []
+        split_data = data.split()
+        values.append(split_data[0])
+        values.append(split_data[1].split(","))
+        append_sensor_values(values=values, id=id)  # noqa: PERF40
 
 def append_sensor_values(values, id):
     global sensor_values, keys
