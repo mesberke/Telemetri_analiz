@@ -1,7 +1,15 @@
+import re
+
 # dosyadan veri okur
+sensor_values = {}
+keys = []
+
+
 def load_data():
     log_lines = []
-    with open("/home/desktoptamirin/projects_python/telemetri_analiz/data/log.csv") as f:
+    with open(
+        "/home/desktoptamirin/projects_python/telemetri_analiz/data/log.csv"
+    ) as f:
         for line in f:
             log_lines.append(line)  # noqa: PERF402
     f.close()
@@ -9,7 +17,23 @@ def load_data():
 
 
 def split_logs():
-    pass
+    global keys
+    logs = load_data()
+    for id, data in enumerate(logs):
+        if id == 0:
+            keys = data.split(",")
+            continue
+
+def append_sensor_values(values, id):
+    global sensor_values, keys
+    try:
+        for index,value in enumerate(values):
+            sensor_values[id] = {}
+            sensor_values[id][keys[index]] = value
+    except KeyError as e:
+        print(e)
+        return False
+    return True
 
 
 def control_data():
@@ -18,3 +42,6 @@ def control_data():
 
 def dict_telemetri():
     pass
+
+
+split_logs()
