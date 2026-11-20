@@ -29,16 +29,16 @@ def split_logs():
         for value in split_data:
             values.append(value)  # noqa: PERF402
         append_sensor_values(values=values, id=id)  # noqa: PERF40
-    print(sensor_values)
+        
 def append_sensor_values(values, id):
     global sensor_values, keys  # noqa: PLW0602
     try:
-        for index,value in enumerate(values):
-            sensor_values[id] = {}
-            sensor_values[id][keys[index]] = value
+        sensor_values[id] = dict(zip(keys, values))
     except KeyError as e:
+        sensor_values[id] = {}
+        sensor_values[id] = dict(zip(keys, values))
         print(e)
-        return False
+        return
     return True
 
 
