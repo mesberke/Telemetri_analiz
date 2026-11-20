@@ -21,16 +21,17 @@ def split_logs():
     logs = load_data()
     for id, data in enumerate(logs):
         if id == 0:
-            keys = data.split(",")
+            keys =re.split(r",",data.strip())
             continue
         values = []
-        split_data = data.split()
-        values.append(split_data[0])
-        values.append(split_data[1].split(","))
+        split_data = re.split(r",",data.strip())
+        for value in split_data:
+            values.append(value)  # noqa: PERF402
+        
         append_sensor_values(values=values, id=id)  # noqa: PERF40
-
+    print(sensor_values)
 def append_sensor_values(values, id):
-    global sensor_values, keys
+    global sensor_values, keys  # noqa: PLW0602
     try:
         for index,value in enumerate(values):
             sensor_values[id] = {}
