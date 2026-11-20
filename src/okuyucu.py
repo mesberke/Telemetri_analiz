@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 
 # dosyadan veri okur
 sensor_values = {}
@@ -27,6 +28,7 @@ def split_logs():
         split_data = data.split()
         values.append(split_data[0])
         values.append(split_data[1].split(","))
+        control_data(values = values)
         append_sensor_values(values=values, id=id)  # noqa: PERF40
 
 def append_sensor_values(values, id):
@@ -41,10 +43,21 @@ def append_sensor_values(values, id):
     return True
 
 
-def control_data():
-    pass
-
-
+def control_data(values):
+    if(values is None):
+        return False
+    try : 
+        date = datetime.strptime(values[0].split()[0],"%Y-%m-%d")
+        time = datetime.strptime(values[1].split()[1],"%H:M:S")
+        print(date.hour())
+    except ValueError as error:
+        print(error)
+        return False
+    if date.year() > datetime.now().year() or   date.month > 12   or date.day > 31 or any( x < 0 for x in (date.year,date.month,date.day)):
+        return False
+    if time.hour < 24 or  time.minute > 60  or time.second > 60 or  any( x < 0 for x in (time.hour ,time.minute,time.second)):
+        return False
+    
 def dict_telemetri():
     pass
 
