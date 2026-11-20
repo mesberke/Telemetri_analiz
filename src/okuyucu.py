@@ -34,6 +34,7 @@ def split_logs():
     print(len(sensor_values))
     print(sensor_values)
 
+
 def append_sensor_values(values, id):
     global sensor_values, keys  # noqa: PLW0602
     try:
@@ -89,6 +90,7 @@ def control_data(values):
         print(f"Batarya degeri hatalidir Batarya : {battery}")
         return False
     return True
+
 
 def dict_telemetri():
     pass
