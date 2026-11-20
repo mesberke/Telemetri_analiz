@@ -1,14 +1,20 @@
 # dosyadan veri okur
 def load_data():
-    log_lines =[]
-    with open("log.csv") as f:
+    log_lines = []
+    with open("/home/desktoptamirin/projects_python/telemetri_analiz/data/log.csv") as f:
         for line in f:
             log_lines.append(line)  # noqa: PERF402
     f.close()
-    return log_lines  
+    return log_lines
+
+
 def split_logs():
     pass
+
+
 def control_data():
     pass
+
+
 def dict_telemetri():
     pass
