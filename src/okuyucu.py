@@ -1,14 +1,6 @@
 import re
 from datetime import datetime
 
-# dosyadan veri okur
-sensor_values: dict[str, list[float]]= {
-    "zaman" : [],
-     "sicaklik": [],
-    "hiz": [],
-    "batarya": [],
-} # sensordan alınan verilerin yazildigi dict
-keys = [] # Sensor_valuesin anahtar degerleri
 invalid_data = 0
 corrupted_data = 0
 
@@ -24,21 +16,30 @@ def load_data():   # veriyi dosyadan ceker
 
 
 def split_logs(): # veriyi parcalarına ayırır ve kontrole hazir hale getirir
-    global keys
+
     logs = load_data()
+    sensor_values: dict[str, list[float]]= {
+        "zaman" : [],
+        "sicaklik": [],
+        "hiz": [],
+        "batarya": [],
+        }
+
     for id, data in enumerate(logs):
-        if id == 0:
-            keys = re.split(r",", data.strip())
-            continue
         values = []
+        if id == 0:
+            continue
         split_data = re.split(r",", data.strip())
+
         for value in split_data:
             values.append(value)  # noqa: PERF402
+
         if not control_data(values=values):
             continue
-        append_sensor_values(values=values, id=id) # noqa: PERF40
-    return sensor_values
-def append_sensor_values(values, id): # ayrilan veriyi sensor_values adlı dicte atar
+
+        append_sensor_values(sensor_values=sensor_values,values=values, id=id) # noqa: PERF40
+    return sensor_values,(invalid_data + corrupted_data) # sensor verileri + atlanan satır sayısı
+def append_sensor_values(sensor_values,values, id): # ayrilan veriyi sensor_values adlı dicte atar
     global sensor_values, keys  # noqa: PLW0602
     for key,value in zip(keys,values):
         sensor_values[key].append(value if key == "zaman" else float(value))    
