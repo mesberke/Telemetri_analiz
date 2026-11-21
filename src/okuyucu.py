@@ -6,17 +6,14 @@ invalid_data = 0
 corrupted_data = 0
 
 def load_data(path):
-    invalid_data = 0
-    corrupted_data = 0   # veriyi dosyadan ceker
-    log_lines = []
+    invalid_data = 0  # noqa: F841
+    corrupted_data = 0   # veriyi dosyadan ceker  # noqa: F841
     try:
         with open(path, encoding="utf-8") as f:
-            for line in f:
-                log_lines.append(line)  # noqa: PERF402
-    except FileNotFoundError:
-        return False
-    f.close()
-    return log_lines
+            return f.readlines() 
+    except FileNotFoundError as e:
+        raise FileNotFoundError(f"Girdi dosyası bulunamadı: {path}") from e
+    return False
 
 
 def split_logs(root,path): # veriyi parcalarına ayırır ve kontrole hazir hale getirir
