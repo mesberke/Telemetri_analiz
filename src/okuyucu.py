@@ -4,7 +4,8 @@ from datetime import datetime
 # dosyadan veri okur
 sensor_values = {}
 keys = []
-
+invalid_data = 0
+corrupted_data = 0
 
 def load_data():
     log_lines = []
@@ -31,9 +32,6 @@ def split_logs():
         if not control_data(values=values):
             continue
         append_sensor_values(values=values, id=id)  # noqa: PERF40
-    print(len(sensor_values))
-    print(sensor_values)
-
 
 def append_sensor_values(values, id):
     global sensor_values, keys  # noqa: PLW0602
@@ -48,7 +46,10 @@ def append_sensor_values(values, id):
 
 
 def control_data(values):
+    global invalid_data,corrupted_data
+
     if values is None or len(values) != 4:
+        corrupted_data += 1
         return False
     time = 0
     date = 0
@@ -61,6 +62,7 @@ def control_data(values):
 
     except ValueError as error:
         print(error)
+        corrupted_data += 1
         return False
     if (
         date.year > datetime.now().year
@@ -69,7 +71,9 @@ def control_data(values):
         or any(x < 0 for x in (date.year, date.month, date.day))
     ):
         print("Date hatasi")
+        corrupted_data += 1
         return False
+    
     if (
         time.hour > 24
         or time.minute > 60
@@ -77,20 +81,31 @@ def control_data(values):
         or any(x < 0 for x in (time.hour, time.minute, time.second))
     ):
         print("time hatasi")
+        corrupted_data += 1
         return False
+    
     if any(x is None for x in (battery, speed, temp)):
         print("Keys degerlerinden biri veya birkaci None")
+        corrupted_data += 1
         return False
+    
     try:
-        x = float(battery)
-    except TypeError as error:
+        f_battery = float(battery)
+        f_speed = float(speed)
+        f_temp = float(temp)
+    except ValueError as error:
         print(error)
+        print("speeed or temp or battery degerlerinden biri veya birkacı hatali")
+        invalid_data += 1
         return False
-    if float(battery) < 0:
+    
+    if f_battery < 0:
         print(f"Batarya degeri hatalidir Batarya : {battery}")
+        invalid_data += 1
         return False
+    
     return True
-
+    
 
 def dict_telemetri():
     pass
