@@ -37,7 +37,6 @@ def split_logs(): # veriyi parcalarına ayırır ve kontrole hazir hale getirir
         if not control_data(values=values):
             continue
         append_sensor_values(values=values, id=id) # noqa: PERF40
-    print(sensor_values)
     return sensor_values
 def append_sensor_values(values, id): # ayrilan veriyi sensor_values adlı dicte atar
     global sensor_values, keys  # noqa: PLW0602
@@ -116,4 +115,3 @@ def control_data(values): # verilerin sayısal olarak dogrulugunu kontrol eder
     
 def main():
     return split_logs()
-split_logs()
