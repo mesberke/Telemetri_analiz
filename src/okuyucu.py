@@ -42,8 +42,11 @@ def append_sensor_values(values, id): # ayrilan veriyi sensor_values adlı dicte
     global sensor_values, keys  # noqa: PLW0602
     try:
         for key,value in zip(keys,values):
-            sensor_values[key].append(value)
-    except KeyError as e:
+            if key != "zaman" :
+                sensor_values[key].append(float(value))
+                continue
+            sensor_values[key].append(float(value))
+    except ValueError as e:
         
         for key,value in zip(keys,values):
             sensor_values[key].append(value)
@@ -115,3 +118,5 @@ def control_data(values): # verilerin sayısal olarak dogrulugunu kontrol eder
     
 def main():
     return split_logs()
+split_logs()
+print(sensor_values)
