@@ -31,13 +31,14 @@ def find_over_speed(veriler,esik_deger):
         print(x)
     return zaman
 
-def get_data():
+def get_data(esik_deger):
     sensor_values = m()
     if sensor_values is None :
         print("sensor values fonk bos gelmistir")
         return False
-    calc_top_values(veriler=sensor_values)
-    return sensor_values
-if __name__ == "__main__":
-    get_data()
+    top_values = calc_top_values(veriler=sensor_values)
+    over_speed_times = find_over_speed(veriler=sensor_values,esik_deger=esik_deger)
+    low_battery_time = find_low_battery_time(sensor_values)
+    return {"top_values" : top_values,"over_speed_time" : over_speed_times, "low_battery_time " : low_battery_time}
+
 # git commit -m "feat : okuyucu classi yardimiyla veriler cekildi"
