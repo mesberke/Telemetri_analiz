@@ -5,23 +5,28 @@ from pathlib import Path
 invalid_data = 0
 corrupted_data = 0
 
-def load_data(root,path):
+def load_data(path):
     invalid_data = 0
     corrupted_data = 0   # veriyi dosyadan ceker
     log_lines = []
-    
-    with open(path, encoding="utf-8") as f:
-        for line in f:
-            log_lines.append(line)  # noqa: PERF402
+    try:
+        with open(path, encoding="utf-8") as f:
+            for line in f:
+                log_lines.append(line)  # noqa: PERF402
+    except FileNotFoundError:
+        return False
     f.close()
     return log_lines
 
 
 def split_logs(root,path): # veriyi parcalarına ayırır ve kontrole hazir hale getirir
+    
     if root is None or Path is None:
         root = Path(__file__).resolve().parent.parent      # projenin kök klasörü
-        path = root /"data" / "log.csv"
-    logs = load_data(root=root,path=path)
+        path = root /"data" / "lo.csv"
+    if not (logs := load_data(path=path)):
+        return False
+    
     sensor_values: dict[str, list[float]]= {
         "zaman" : [],
         "sicaklik": [],
@@ -90,5 +95,5 @@ def control_data(values): # verilerin sayısal olarak dogrulugunu kontrol eder
     return True
     
 def main():
-    return split_logs()
-
+    return split_logs(root=None,path=None)
+print(main())
