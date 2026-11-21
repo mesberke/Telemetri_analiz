@@ -17,8 +17,7 @@ def calc_top_values(veriler):
         top_values["min_values"][key] = min_value
         if (key != "zaman"):
             top_values["mean_values"][key] =round(mean(veriler[key]),3)
-    print(top_values)
-    return max_value
+    return top_values
 
 def find_low_battery_time():
     pass    
