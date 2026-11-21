@@ -2,7 +2,12 @@ import re
 from datetime import datetime
 
 # dosyadan veri okur
-sensor_values: dict[str, dict[str, float]] = {} # sensordan alınan verilerin yazildigi dict
+sensor_values: dict[str, list[float]]= {
+    "zaman" : [],
+     "sicaklik": [],
+    "hiz": [],
+    "batarya": [],
+} # sensordan alınan verilerin yazildigi dict
 keys = [] # Sensor_valuesin anahtar degerleri
 invalid_data = 0
 corrupted_data = 0
@@ -32,14 +37,17 @@ def split_logs(): # veriyi parcalarına ayırır ve kontrole hazir hale getirir
         if not control_data(values=values):
             continue
         append_sensor_values(values=values, id=id) # noqa: PERF40
+    print(sensor_values)
     return sensor_values
 def append_sensor_values(values, id): # ayrilan veriyi sensor_values adlı dicte atar
     global sensor_values, keys  # noqa: PLW0602
     try:
-        sensor_values[id] = dict(zip(keys, values))
+        for key,value in zip(keys,values):
+            sensor_values[key].append(value)
     except KeyError as e:
-        sensor_values[id] = {}
-        sensor_values[id] = dict(zip(keys, values))
+        
+        for key,value in zip(keys,values):
+            sensor_values[key].append(value)
         print(e)
         return
     return True
@@ -108,3 +116,4 @@ def control_data(values): # verilerin sayısal olarak dogrulugunu kontrol eder
     
 def main():
     return split_logs()
+split_logs()
