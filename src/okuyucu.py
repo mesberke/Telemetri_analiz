@@ -2,7 +2,7 @@ import re
 from datetime import datetime
 
 # dosyadan veri okur
-sensor_values = {} # sensordan alınan verilerin yazildigi dict
+sensor_values = dict[str , dict[str,float]] # sensordan alınan verilerin yazildigi dict
 keys = [] # Sensor_valuesin anahtar degerleri
 invalid_data = 0
 corrupted_data = 0
@@ -106,4 +106,5 @@ def control_data(values): # verilerin sayısal olarak dogrulugunu kontrol eder
     
     return True
     
-
+def main():
+    split_logs()
