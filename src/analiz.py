@@ -9,13 +9,14 @@ def find_max_value(veriler):
                   "min_values" : {"zaman" : 0 ,"sicaklik": 0 , "hiz" : 0 ,"batarya" : 0},
                   "mean_values" : {"sicaklik": 0 , "hiz" : 0 ,"batarya" : 0}}
     for key in veriler.keys():
+        
         max_value = max(veriler[key])
         min_value = min(veriler[key])
 
         top_values["max_values"][key] = max_value
         top_values["min_values"][key] = min_value
         if (key != "zaman"):
-            top_values["mean_values"][key] =mean(veriler[key])
+            top_values["mean_values"][key] =round(mean(veriler[key]),3)
     print(top_values)
     return max_value
 
