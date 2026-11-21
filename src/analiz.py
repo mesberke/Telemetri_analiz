@@ -8,7 +8,7 @@ def calc_top_values(veriler):
     top_values = {"max_values" : {"zaman" : 0 ,"sicaklik": 0 , "hiz" : 0 ,"batarya" : 0},
                   "min_values" : {"zaman" : 0 ,"sicaklik": 0 , "hiz" : 0 ,"batarya" : 0},
                   "mean_values" : {"sicaklik": 0 , "hiz" : 0 ,"batarya" : 0}}
-    for key in veriler.keys():
+    for key in veriler.keys():  # noqa: SIM118
         
         max_value = max(veriler[key])
         min_value = min(veriler[key])
@@ -19,8 +19,11 @@ def calc_top_values(veriler):
             top_values["mean_values"][key] =round(mean(veriler[key]),3)
     return top_values
 
-def find_low_battery_time():
-    pass    
+def find_low_battery_time(veriler):
+    zaman = next((x for x,y in zip(veriler["zaman"],veriler["batarya"]) if y < 20 ),None)
+    print(zaman)
+    return zaman
+     
 def get_data():
     sensor_values = m()
     if sensor_values is None :
