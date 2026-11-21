@@ -24,7 +24,7 @@ def split_logs(root,path): # veriyi parcalarına ayırır ve kontrole hazir hale
         root = Path(__file__).resolve().parent.parent      # projenin kök klasörü
         path = root /"data" / "log.csv"
     if not (logs := load_data(path=path)):
-        return False
+        raise ValueError("Dosyada veri yok")
     
     sensor_values: dict[str, list[float]]= {
         "zaman" : [],
