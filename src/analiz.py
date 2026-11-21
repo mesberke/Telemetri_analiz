@@ -23,7 +23,14 @@ def find_low_battery_time(veriler):
     zaman = next((x for x,y in zip(veriler["zaman"],veriler["batarya"]) if y < 20 ),None)
     print(zaman)
     return zaman
-     
+
+def find_over_speed(veriler,esik_deger):
+    zaman = []
+    zaman.append([time for time,speed in zip(veriler["zaman"],veriler["hiz"]) if speed > esik_deger])
+    for x in zaman:
+        print(x)
+    return zaman
+
 def get_data():
     sensor_values = m()
     if sensor_values is None :
