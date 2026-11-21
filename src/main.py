@@ -10,12 +10,12 @@ def main():
     parser = argparse.ArgumentParser(description="Telemetri log analizcisi")
     parser.add_argument("--root", required=True, help="CSV dosyasının kök dosyası")
     parser.add_argument("--path", required=True, help="CSV dosyasının yolu")
-    parser.add_argument("--max", required=True, help="hizin alabilecegi max deger")
+    parser.add_argument("--max", type=float, default=6.7, help="Hız esigi")
     parser.add_argument("--cikti", default="output", help="Cikti klasoru")
-    parser.add_argument("--hiz-esik", type=float, default=5.0, help="Hız esigi")
     args = parser.parse_args()
 
     try:
+        
         data, undefined_data = read_data(root=args.root, path=args.path)
     except FileNotFoundError as e:
         print(e)
