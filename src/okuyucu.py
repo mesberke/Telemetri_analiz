@@ -1,3 +1,4 @@
+import pathlib as Path
 import re
 from datetime import datetime
 
@@ -6,9 +7,10 @@ corrupted_data = 0
 
 def load_data():   # veriyi dosyadan ceker
     log_lines = []
-    with open(
-        "/home/desktoptamirin/projects_python/telemetri_analiz/data/log.csv"
-    ) as f:
+    root = Path(__file__).resolve().parent.parent      # projenin kök klasörü
+    path = root / "src" / "data" / "log.csv"
+ 
+    with open(path, encoding="utf-8") as f:
         for line in f:
             log_lines.append(line)  # noqa: PERF402
     f.close()
