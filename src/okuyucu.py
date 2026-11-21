@@ -45,7 +45,7 @@ def append_sensor_values(values, id): # ayrilan veriyi sensor_values adlı dicte
             if key != "zaman" :
                 sensor_values[key].append(float(value))
                 continue
-            sensor_values[key].append(float(value))
+            sensor_values[key].append(value)
     except ValueError as e:
         
         for key,value in zip(keys,values):
@@ -61,8 +61,6 @@ def control_data(values): # verilerin sayısal olarak dogrulugunu kontrol eder
     if values is None or len(values) != 4:
         corrupted_data += 1
         return False
-    time = 0
-    date = 0
     temp = values[1]
     speed = values[2]
     battery = values[3]
@@ -72,25 +70,6 @@ def control_data(values): # verilerin sayısal olarak dogrulugunu kontrol eder
 
     except ValueError as error:
         print(error)
-        corrupted_data += 1
-        return False
-    if (
-        date.year > datetime.now().year
-        or date.month > 12
-        or date.day > 31
-        or any(x < 0 for x in (date.year, date.month, date.day))
-    ):
-        print("Date hatasi")
-        corrupted_data += 1
-        return False
-    
-    if (
-        time.hour > 24
-        or time.minute > 60
-        or time.second > 60
-        or any(x < 0 for x in (time.hour, time.minute, time.second))
-    ):
-        print("time hatasi")
         corrupted_data += 1
         return False
     
@@ -118,5 +97,3 @@ def control_data(values): # verilerin sayısal olarak dogrulugunu kontrol eder
     
 def main():
     return split_logs()
-split_logs()
-print(sensor_values)
