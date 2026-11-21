@@ -1,4 +1,3 @@
-import os
 from statistics import mean
 
 from .okuyucu import main as m
@@ -32,29 +31,23 @@ def find_low_battery_time(veriler):
 
 def find_over_speed(veriler, esik_deger):
     zaman = []
-    zaman.append(
-        [
+    zaman.append(  
             time
             for time, speed in zip(veriler["zaman"], veriler["hiz"])
-            if speed > esik_deger
-        ]
+            if speed > esik_deger 
     )
     return zaman
 
 
-def get_data(esik_deger):
-    sensor_values = m()
-    if sensor_values is None:
-        print("sensor values fonk bos gelmistir")
-        return False
+def get_data(esik_deger,sensor_values):
+    
     top_values = calc_top_values(veriler=sensor_values)
     over_speed_times = find_over_speed(veriler=sensor_values, esik_deger=esik_deger)
     low_battery_time = find_low_battery_time(sensor_values)
+
     return {
         "top_values": top_values,
         "over_speed_time": over_speed_times,
-        "low_battery_time ": low_battery_time,
+        "low_battery_time": low_battery_time,
     }
 
-
-# git commit -m "feat : okuyucu classi yardimiyla veriler cekildi"
