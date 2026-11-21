@@ -40,18 +40,8 @@ def split_logs(): # veriyi parcalarına ayırır ve kontrole hazir hale getirir
     return sensor_values
 def append_sensor_values(values, id): # ayrilan veriyi sensor_values adlı dicte atar
     global sensor_values, keys  # noqa: PLW0602
-    try:
-        for key,value in zip(keys,values):
-            if key != "zaman" :
-                sensor_values[key].append(float(value))
-                continue
-            sensor_values[key].append(value)
-    except ValueError as e:
-        
-        for key,value in zip(keys,values):
-            sensor_values[key].append(value)
-        print(e)
-        return
+    for key,value in zip(keys,values):
+        sensor_values[key].append(value if key == "zaman" else float(value))    
     return True
 
 
