@@ -18,7 +18,7 @@ def load_data(path):
         raise FileNotFoundError(f"Girdi dosyası bulunamadı: {path}") from e
 
 
-def split_logs(root,path): # veriyi parcalarına ayırır ve kontrole hazir hale getirir
+def read_data(root,path): # veriyi parcalarına ayırır ve kontrole hazir hale getirir
     
     if root is None or path is None:
         root = Path(__file__).resolve().parent.parent      # projenin kök klasörü
@@ -45,6 +45,7 @@ def split_logs(root,path): # veriyi parcalarına ayırır ve kontrole hazir hale
 
         append_sensor_values(sensor_values=sensor_values,values=values, id=id) # noqa: PERF40
     return sensor_values,(invalid_data + corrupted_data) # sensor verileri + atlanan satır sayısı
+
 def append_sensor_values(sensor_values,values, id): # ayrilan veriyi sensor_values adlı dicte atar
     for key,value in zip(sensor_values.keys(),values):
         sensor_values[key].append(value if key == "zaman" else float(value))    
@@ -91,6 +92,5 @@ def control_data(values): # verilerin sayısal olarak dogrulugunu kontrol eder
     
     return True
     
-def main():
-    return split_logs(root=None,path=None)
-print(main())
+
+
