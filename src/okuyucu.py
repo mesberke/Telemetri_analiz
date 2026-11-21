@@ -2,12 +2,12 @@ import re
 from datetime import datetime
 
 # dosyadan veri okur
-sensor_values = {}
-keys = []
+sensor_values = {} # sensordan alınan verilerin yazildigi dict
+keys = [] # Sensor_valuesin anahtar degerleri
 invalid_data = 0
 corrupted_data = 0
 
-def load_data():
+def load_data():   # veriyi dosyadan ceker
     log_lines = []
     with open(
         "/home/desktoptamirin/projects_python/telemetri_analiz/data/log.csv"
@@ -18,7 +18,7 @@ def load_data():
     return log_lines
 
 
-def split_logs():
+def split_logs(): # veriyi parcalarına ayırır ve kontrole hazir hale getirir
     global keys
     logs = load_data()
     for id, data in enumerate(logs):
@@ -33,7 +33,7 @@ def split_logs():
             continue
         append_sensor_values(values=values, id=id)  # noqa: PERF40
 
-def append_sensor_values(values, id):
+def append_sensor_values(values, id): # ayrilan veriyi sensor_values adlı dicte atar
     global sensor_values, keys  # noqa: PLW0602
     try:
         sensor_values[id] = dict(zip(keys, values))
@@ -45,7 +45,7 @@ def append_sensor_values(values, id):
     return True
 
 
-def control_data(values):
+def control_data(values): # verilerin sayısal olarak dogrulugunu kontrol eder
     global invalid_data,corrupted_data
 
     if values is None or len(values) != 4:
@@ -107,8 +107,3 @@ def control_data(values):
     return True
     
 
-def dict_telemetri():
-    pass
-
-
-split_logs()
