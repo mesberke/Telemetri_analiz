@@ -1,6 +1,6 @@
-import pathlib as Path
 import re
 from datetime import datetime
+from pathlib import Path
 
 invalid_data = 0
 corrupted_data = 0
@@ -8,7 +8,7 @@ corrupted_data = 0
 def load_data():   # veriyi dosyadan ceker
     log_lines = []
     root = Path(__file__).resolve().parent.parent      # projenin kök klasörü
-    path = root / "src" / "data" / "log.csv"
+    path = root /"data" / "log.csv"
  
     with open(path, encoding="utf-8") as f:
         for line in f:
@@ -42,8 +42,7 @@ def split_logs(): # veriyi parcalarına ayırır ve kontrole hazir hale getirir
         append_sensor_values(sensor_values=sensor_values,values=values, id=id) # noqa: PERF40
     return sensor_values,(invalid_data + corrupted_data) # sensor verileri + atlanan satır sayısı
 def append_sensor_values(sensor_values,values, id): # ayrilan veriyi sensor_values adlı dicte atar
-    global sensor_values, keys  # noqa: PLW0602
-    for key,value in zip(keys,values):
+    for key,value in zip(sensor_values.keys(),values):
         sensor_values[key].append(value if key == "zaman" else float(value))    
     return True
 
@@ -90,3 +89,4 @@ def control_data(values): # verilerin sayısal olarak dogrulugunu kontrol eder
     
 def main():
     return split_logs()
+
