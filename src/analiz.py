@@ -2,7 +2,7 @@ import os
 from statistics import mean, median
 from .okuyucu import main as m
 
-def find_max_value(veriler):
+def calc_top_values(veriler):
     if veriler is None or len(veriler) <= 0 :
         return False
     top_values = {"max_values" : {"zaman" : 0 ,"sicaklik": 0 , "hiz" : 0 ,"batarya" : 0},
@@ -20,20 +20,14 @@ def find_max_value(veriler):
     print(top_values)
     return max_value
 
-def find_min_value():
-    pass
-def calc_mean():
-    pass
 def find_low_battery_time():
     pass    
-def main():
-    pass
 def get_data():
     sensor_values = m()
     if sensor_values is None :
         print("sensor values fonk bos gelmistir")
         return False
-    find_max_value(veriler=sensor_values)
+    calc_top_values(veriler=sensor_values)
     return sensor_values
 if __name__ == "__main__":
     get_data()
