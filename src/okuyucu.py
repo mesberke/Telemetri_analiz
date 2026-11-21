@@ -6,19 +6,19 @@ invalid_data = 0
 corrupted_data = 0
 
 def load_data(path):
-    invalid_data = 0  # noqa: F841
-    corrupted_data = 0   # veriyi dosyadan ceker  # noqa: F841
+    global invalid_data,corrupted_data
+    invalid_data = 0 
+    corrupted_data = 0   # veriyi dosyadan ceker 
     try:
         with open(path, encoding="utf-8") as f:
             return f.readlines() 
     except FileNotFoundError as e:
         raise FileNotFoundError(f"Girdi dosyası bulunamadı: {path}") from e
-    return False
 
 
 def split_logs(root,path): # veriyi parcalarına ayırır ve kontrole hazir hale getirir
     
-    if root is None or Path is None:
+    if root is None or path is None:
         root = Path(__file__).resolve().parent.parent      # projenin kök klasörü
         path = root /"data" / "lo.csv"
     if not (logs := load_data(path=path)):
@@ -31,10 +31,8 @@ def split_logs(root,path): # veriyi parcalarına ayırır ve kontrole hazir hale
         "batarya": [],
         }
 
-    for id, data in enumerate(logs):
+    for data in logs:
         values = []
-        if id == 0:
-            continue
         split_data = re.split(r",", data.strip())
 
         for value in split_data:
