@@ -32,7 +32,7 @@ def write_file(data, path):
     print("Islem basarili oldu dosyaya veri yazildi")
     return True
 
-    
+
 def rapor(data):
     top = data["top_values"]
     satirlar = ["TELEMETRİ ANALİZ RAPORU", "=" * 40]
@@ -53,5 +53,6 @@ def rapor(data):
     satirlar.append(f"Atlanan satır sayısı: {data['undefined']}")
 
     return "\n".join(satirlar) + "\n"
+
 
 # git commit -m "feat: rapor şablonnu eklendi ve yazdırıldı" -m "json ekleme modundan yazma oduna alındı"
