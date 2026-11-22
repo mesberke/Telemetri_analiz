@@ -1,5 +1,5 @@
+from builtins import len
 from statistics import mean
-
 
 
 def calc_top_values(veriler):
