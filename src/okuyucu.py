@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 def load_data(path):
-   
+
     try:
         with open(path, encoding="utf-8") as f:
             if next(f, None) is None:    
@@ -34,7 +34,8 @@ def read_data(path): # veriyi parcalarına ayırır ve kontrole hazir hale getir
         for value in split_data:
             values.append(value)  # noqa: PERF402
 
-        if not (invalid_data := control_data(values=values),invalid_data):# return status or return invalid_data
+        if not (x := control_data(values=values,invalid_data=invalid_data))["status"]:# return status or return invalid_data
+            invalid_data = x["invalid_data"]
             continue
 
         append_sensor_values(sensor_values=sensor_values,values=values) # noqa: PERF40
@@ -43,14 +44,14 @@ def read_data(path): # veriyi parcalarına ayırır ve kontrole hazir hale getir
 def append_sensor_values(sensor_values,values): # ayrilan veriyi sensor_values adlı dicte atar
     for key,value in zip(sensor_values.keys(),values):
         sensor_values[key].append(value if key == "zaman" else float(value))    
-    return True
+    return sensor_values
 
 
 def control_data(values,invalid_data): # verilerin sayısal olarak dogrulugunu kontrol eder
 
     if values is None or len(values) != 4:
         invalid_data += 1
-        return False
+        return {"status":False,"invalid_data":invalid_data}
     temp = values[1]
     speed = values[2]
     battery = values[3]
@@ -61,12 +62,12 @@ def control_data(values,invalid_data): # verilerin sayısal olarak dogrulugunu k
     except ValueError as error:
         print(error)
         invalid_data += 1
-        return False
+        return {"status":False,"invalid_data":invalid_data}
     
     if any(x is None for x in (battery, speed, temp)):
         print("Keys degerlerinden biri veya birkaci None")
         invalid_data += 1
-        return False
+        return {"status":False,"invalid_data":invalid_data}
     
     try:
         f_battery = float(battery)
@@ -76,14 +77,12 @@ def control_data(values,invalid_data): # verilerin sayısal olarak dogrulugunu k
         print(error)
         print("speeed or temp or battery degerlerinden biri veya birkacı hatali")
         invalid_data += 1
-        return False
+        return {"status":False,"invalid_data":invalid_data}
     
     if f_battery < 0:
         print(f"Batarya degeri hatalidir Batarya : {battery}")
         invalid_data += 1
-        return False
+        return {"status":False,"invalid_data":invalid_data}
     
-    return invalid_data
+    return {"status":True,"invalid_data":invalid_data}
     
-
-
