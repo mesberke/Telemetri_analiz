@@ -7,7 +7,8 @@ def load_data(path):
    
     try:
         with open(path, encoding="utf-8") as f:
-            next(f)
+            if next(f, None) is None:    
+                raise ValueError("Dosya boş: başlık satırı yok")
             return f.readlines() 
     except FileNotFoundError as e:
         raise FileNotFoundError(f"Girdi dosyası bulunamadı: {path}") from e
