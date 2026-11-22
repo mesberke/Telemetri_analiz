@@ -9,10 +9,8 @@ def write_file(data, path):
         path_txt = root / path / "output.txt"
         with open(path_txt, encoding="utf-8", mode="at") as f:
             f.write(txt)
-    except TypeError as e:
-        raise IsADirectoryError(f"verilen adres bir dosya yolu : {e}")
     except IsADirectoryError as e:
-        raise IsADirectoryError(e)
+        raise IsADirectoryError(f"verilen adres bir dosya yolu : {e}")
     except FileNotFoundError as e:
         raise FileNotFoundError(f"Dosya bulunamadı : {e}")
 
