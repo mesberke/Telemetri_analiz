@@ -1,5 +1,5 @@
 import argparse
-from pathlib import Path
+from builtins import float
 
 from .analiz import get_data
 from .okuyucu import read_data
@@ -17,14 +17,18 @@ def main():
     try:
         data, undefined_data = read_data(root=args.root, path=args.path)
     except FileNotFoundError as e:
-        print(e)
-        return False
+        raise FileNotFoundError(f"Dosya bulunamadı : {e}")
+    except ValueError as e:
+        raise ValueError(f"Dosyada Veri yok : {e}")
+    
     if args.max < 0 :
-        raise ValueError("Esik deger 0 dan kücük olamaz")
+        print("esik deger 0 dan kucuk olamaz")
+        return False
     
     output_data = get_data(sensor_values=data, esik_deger=args.max)
     output_data.update({"undefined": undefined_data})
-    write_file(data=output_data)
+    write_file(data=output_data,path=args.cikti)
+
     return True
 
 
