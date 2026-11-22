@@ -12,6 +12,8 @@ def calc_top_values(veriler):
         return top_values
     
     for key in veriler.keys():  # noqa: SIM118
+        if len(veriler[key] ) <= 0:
+            return top_values
         max_value = max(veriler[key])
         min_value = min(veriler[key])
 
