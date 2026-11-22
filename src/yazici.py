@@ -4,7 +4,7 @@ from pathlib import Path
 
 def write_file(data, path):
     try:
-        txt = rapor(data=data)
+        txt = report(data=data)
         root = Path(__file__).resolve().parent.parent  # projenin kök klasörü
         path_txt = root / path / "output.txt"
         with open(path_txt, encoding="utf-8", mode="at") as f:
@@ -33,26 +33,25 @@ def write_file(data, path):
     return True
 
 
-def rapor(data):
+def report(data):
     top = data["top_values"]
-    satirlar = ["TELEMETRİ ANALİZ RAPORU", "=" * 40]
+    lines = ["TELEMETRİ ANALİZ RAPORU", "=" * 40]
 
-    bolumler = (
+    sections = (
         ("Maksimum değerler", "max_values"),
         ("Minimum değerler", "min_values"),
         ("Ortalama değerler", "mean_values"),
     )
-    for baslik, anahtar in bolumler:
-        satirlar.append(baslik)
-        for sutun, deger in top[anahtar].items():
-            satirlar.append(f"  {sutun:<10}: {deger}")
-        satirlar.append("-" * 40)
+    for head, key in sections:
+        lines.append(head)
+        for row, value in top[key].items():
+            lines.append(f"  {row:<10}: {value}")
+        lines.append("-" * 40)
 
-    satirlar.append(f"Batarya %20 altına ilk düştüğü zaman: {data['low_battery_time']}")
-    satirlar.append(f"Hız eşiğini aşan satır sayısı: {len(data['over_speed_time'])}")
-    satirlar.append(f"Atlanan satır sayısı: {data['undefined']}")
+    lines.append(f"Batarya %20 altına ilk düştüğü zaman: {data['low_battery_time']}")
+    lines.append(f"Hız eşiğini aşan satır sayısı: {len(data['over_speed_time'])}")
+    lines.append(f"Atlanan satır sayısı: {data['undefined']}")
 
-    return "\n".join(satirlar) + "\n"
+    return "\n".join(lines) + "\n"
 
 
-# git commit -m "feat: rapor şablonnu eklendi ve yazdırıldı" -m "json ekleme modundan yazma oduna alındı"
