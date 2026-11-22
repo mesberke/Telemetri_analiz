@@ -15,11 +15,11 @@ def main():
     parser.add_argument("--output",required=True ,  help="Cikti klasoru")
     args = parser.parse_args()
 
-    input = Path(args.root)
+    input = Path(args.path)
     output = Path(args.output)
     
     try:
-        data, undefined_data = read_data(root=input)
+        data, undefined_data = read_data(path=input)
     except FileNotFoundError as e:
         raise FileNotFoundError(f"Dosya bulunamadı : {e}")
     except ValueError as e:
