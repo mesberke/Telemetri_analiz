@@ -13,11 +13,8 @@ def load_data(path):
         raise FileNotFoundError(f"Girdi dosyası bulunamadı: {path}") from e
 
 
-def read_data(root,path): # veriyi parcalarına ayırır ve kontrole hazir hale getirir
+def read_data(path): # veriyi parcalarına ayırır ve kontrole hazir hale getirir
     
-    if root is None or path is None:
-        root = Path(__file__).resolve().parent.parent      # projenin kök klasörü
-        path = root /"data" / "log.csv"
     if not (logs := load_data(path=path)):
         raise ValueError("Dosyada veri yok")
     
@@ -39,10 +36,10 @@ def read_data(root,path): # veriyi parcalarına ayırır ve kontrole hazir hale 
         if not (invalid_data := control_data(values=values),invalid_data):# return status or return invalid_data
             continue
 
-        append_sensor_values(sensor_values=sensor_values,values=values, id=id) # noqa: PERF40
+        append_sensor_values(sensor_values=sensor_values,values=values) # noqa: PERF40
     return sensor_values,(invalid_data) # sensor verileri + atlanan satır sayısı
 
-def append_sensor_values(sensor_values,values, id): # ayrilan veriyi sensor_values adlı dicte atar
+def append_sensor_values(sensor_values,values): # ayrilan veriyi sensor_values adlı dicte atar
     for key,value in zip(sensor_values.keys(),values):
         sensor_values[key].append(value if key == "zaman" else float(value))    
     return True
