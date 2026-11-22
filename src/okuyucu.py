@@ -2,14 +2,9 @@ import re
 from datetime import datetime
 from pathlib import Path
 
-invalid_data = 0
-corrupted_data = 0
 
 def load_data(path):
-    global invalid_data,corrupted_data
-    
-    invalid_data = 0 
-    corrupted_data = 0   # veriyi dosyadan ceker 
+   
     try:
         with open(path, encoding="utf-8") as f:
             next(f)
@@ -32,7 +27,8 @@ def read_data(root,path): # veriyi parcalarına ayırır ve kontrole hazir hale 
         "hiz": [],
         "batarya": [],
         }
-
+    
+    invalid_data = 0
     for data in logs:
         values = []
         split_data = re.split(r",", data.strip())
@@ -40,11 +36,11 @@ def read_data(root,path): # veriyi parcalarına ayırır ve kontrole hazir hale 
         for value in split_data:
             values.append(value)  # noqa: PERF402
 
-        if not control_data(values=values):
+        if not (invalid_data := control_data(values=values),invalid_data):# return status or return invalid_data
             continue
 
         append_sensor_values(sensor_values=sensor_values,values=values, id=id) # noqa: PERF40
-    return sensor_values,(invalid_data + corrupted_data) # sensor verileri + atlanan satır sayısı
+    return sensor_values,(invalid_data) # sensor verileri + atlanan satır sayısı
 
 def append_sensor_values(sensor_values,values, id): # ayrilan veriyi sensor_values adlı dicte atar
     for key,value in zip(sensor_values.keys(),values):
@@ -52,11 +48,10 @@ def append_sensor_values(sensor_values,values, id): # ayrilan veriyi sensor_valu
     return True
 
 
-def control_data(values): # verilerin sayısal olarak dogrulugunu kontrol eder
-    global invalid_data,corrupted_data
+def control_data(values,invalid_data): # verilerin sayısal olarak dogrulugunu kontrol eder
 
     if values is None or len(values) != 4:
-        corrupted_data += 1
+        invalid_data += 1
         return False
     temp = values[1]
     speed = values[2]
@@ -67,12 +62,12 @@ def control_data(values): # verilerin sayısal olarak dogrulugunu kontrol eder
 
     except ValueError as error:
         print(error)
-        corrupted_data += 1
+        invalid_data += 1
         return False
     
     if any(x is None for x in (battery, speed, temp)):
         print("Keys degerlerinden biri veya birkaci None")
-        corrupted_data += 1
+        invalid_data += 1
         return False
     
     try:
@@ -90,7 +85,7 @@ def control_data(values): # verilerin sayısal olarak dogrulugunu kontrol eder
         invalid_data += 1
         return False
     
-    return True
+    return invalid_data
     
 
 
