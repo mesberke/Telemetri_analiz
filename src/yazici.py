@@ -20,13 +20,26 @@ def write_file(data, path):
 
         with open(path_json, encoding="utf-8", mode="wt") as f:
             f.write(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
-
-    except TypeError as e:
-        raise TypeError(f"json olarak yazilamadi : {e}")
     except IsADirectoryError as e:
         raise IsADirectoryError(f"verilen adres bir dosya yolu : {e}")
     except FileNotFoundError as e:
         raise FileNotFoundError(f"Dosya bulunamadı : {e}")
+    print("Islem basarili oldu dosyaya veri yazildi")
+    return write_json(data=data,path=path)
+
+
+def write_json(data, path):
+    try:
+        root = Path(__file__).resolve().parent.parent  # projenin kök klasörü
+        path_json = root / path / "output.json"
+
+        with open(path_json, encoding="utf-8", mode="wt") as f:
+            f.write(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
+    except IsADirectoryError as e:
+        raise IsADirectoryError(f"verilen adres bir dosya yolu : {e}")
+    except FileNotFoundError as e:
+        raise FileNotFoundError(f"Dosya bulunamadı : {e}")
+    
     print("Islem basarili oldu dosyaya veri yazildi")
     return True
 
@@ -51,5 +64,3 @@ def report(data):
     lines.append(f"Atlanan satır sayısı: {data['undefined']}")
 
     return "\n".join(lines) + "\n"
-
-
