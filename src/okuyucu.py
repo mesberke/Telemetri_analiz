@@ -4,6 +4,7 @@ from pathlib import Path
 
 
 def load_data(path):
+
     try:
         with open(path, encoding="utf-8") as f:
             next(f)
@@ -36,8 +37,8 @@ def read_data(root,path): # veriyi parcalarına ayırır ve kontrole hazir hale 
             values.append(value)  # noqa: PERF402
 
         if not (x := control_data(values=values,invalid_data=invalid_data))["status"]:# return status or return invalid_data
-            continue
             invalid_data = x["invalid_data"]
+            continue
         sensor_values = append_sensor_values(sensor_values=sensor_values,values=values, id=id) # noqa: PERF40
     return sensor_values,(invalid_data) # sensor verileri + atlanan satır sayısı
 
