@@ -10,7 +10,6 @@ from .yazici import write_json
 
 def main():
     parser = argparse.ArgumentParser(description="Telemetri log analizcisi")
-    parser.add_argument("--input", required=True, help="CSV dosyasının kök dosyası")
     parser.add_argument("--path", required=True, help="CSV dosyasının yolu")
     parser.add_argument("--max", type=float, default=6.7, help="Hız esigi")
     parser.add_argument("--output",required=True ,  help="Cikti klasoru")
