@@ -20,10 +20,10 @@ def main():
     
     try:
         data, undefined_data = read_data(path=input)
-    except FileNotFoundError as e:
-        raise FileNotFoundError(f"Dosya bulunamadı : {e}")
-    except ValueError as e:
-        raise ValueError(f"Dosyada Veri yok : {e}")
+    except (FileNotFoundError,ValueError) as e:
+        print(e)
+        return False
+    
     
     if args.max < 0 :
         print("esik deger 0 dan kucuk olamaz")
