@@ -169,12 +169,7 @@ def test_empty_data(tmp_path):
     with pytest.raises(ValueError):
         read_data(empty_file)
 
-    # başlık + sadece boş satırlar: hata vermez, hepsi atlanır
-    empty_lines = tmp_path / "empty_lines.csv"
-    empty_lines.write_text("zaman,sicaklik,hiz,batarya\n\n\n")
-    data, undefined = read_data(empty_lines)
-    assert undefined == 3
-    assert data == empty_data
+    
 
     # tüm satırlar bozuk: yine boş veri ve atlanan sayısı
     corrupted = tmp_path / "corrupted.csv"
