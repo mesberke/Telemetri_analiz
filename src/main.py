@@ -20,9 +20,9 @@ def main():
 
     input = Path(args.input)
     output = Path(args.output)
-
+    path = output / "program.log"
+    path.parent.mkdir(parents=True,exist_ok=True)
     logging.basicConfig(
-        output.parent.mkdir(parents=True, exist_ok=True),
         filename=output / "program.log",
         level=logging.INFO,
         filemode="w",
