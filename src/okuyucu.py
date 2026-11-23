@@ -1,12 +1,10 @@
 
-from datetime import datetime
-import logging
 import csv
+import logging
 import math
-
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
-
 
 def load_data(path):
 
@@ -36,29 +34,25 @@ def read_data(path):  # veriyi parcalarına ayırır ve kontrole hazir hale geti
         "hiz": [],
         "batarya": [],
     }
+
     invalid_data = 0
     for index, data in enumerate(logs):
-        if not (
-            x := control_data(values=data, invalid_data=invalid_data, index=index + 2)
-        )["status"]:  # return status or return invalid_data
+
+        if not (x := control_data(values=data, invalid_data=invalid_data, index=index + 2))["status"]:  # return status or return invalid_data
             invalid_data = x["invalid_data"]
             continue
+
         append_sensor_values(sensor_values=sensor_values, values=data)  # noqa: PERF40
     return sensor_values, (invalid_data)  # sensor verileri + atlanan satır sayısı
 
 
-def append_sensor_values(
-    sensor_values, values
-):  # ayrilan veriyi sensor_values adlı dicte atar
+def append_sensor_values(sensor_values, values):  # ayrilan veriyi sensor_values adlı dicte atar
     for key, value in zip(sensor_values.keys(), values.values()):
         sensor_values[key].append(value if key == "zaman" else float(value))
 
     return sensor_values
 
-
-def control_data(
-    values, invalid_data, index
-):  # verilerin sayısal olarak dogrulugunu kontrol eder
+def control_data(values, invalid_data, index):  # verilerin sayısal olarak dogrulugunu kontrol eder
 
     if (values is None) or (len(values) != 4):
         logger.warning("Satir : %d  Beklenen 4 gelen: %d", index, len(values))
@@ -84,7 +78,8 @@ def control_data(
 
     if any(x is None  for x in (battery, speed, temp)):
         logger.warning(
-            "Satir : %d  batarya,hiz,sicaklıktan herhangi biri boş olamaz batarya : %s , sicaklik : %s , hiz : %s",
+            "Satir : %d  batarya,hiz,sicaklıktan herhangi biri boş olamaz " \
+            "batarya : %s , sicaklik : %s , hiz : %s",
             index,
             battery,
             temp,
@@ -99,7 +94,8 @@ def control_data(
         f_temp = float(temp)
     except ValueError as error:
         logger.warning(
-            "Satir : %d  batarya,hiz,sicaklik degerlerinden biri veya birkaci floata donusturulemiyor batarya : %s , sicaklik : %s , hiz : %s",
+            "Satir : %d  batarya,hiz,sicaklik degerlerinden biri veya birkaci floata donusturulemiyor " \
+            "batarya : %s , sicaklik : %s , hiz : %s",
             index,
             battery,
             temp,
@@ -109,14 +105,15 @@ def control_data(
         return {"status": False, "invalid_data": invalid_data}
 
     if any(not math.isfinite(x) for x in (f_battery, f_speed, f_temp)):
-        logger.warning("Degerler sadece sayi olmalidir : batarya : %s , sicaklik : %s , hiz : %s",f_battery,f_temp,f_speed)
+        logger.warning("Degerler sadece sayi olmalidir :" \
+        " batarya : %s , sicaklik : %s , hiz : %s",f_battery,f_temp,f_speed)
         invalid_data += 1
         return {"status": False, "invalid_data": invalid_data}
+    
     if f_battery < 0:
         logger.warning(
             "Satir : %d  Batarya degeri negatif  Batarya : %d", index, f_battery
         )
         invalid_data += 1
         return {"status": False, "invalid_data": invalid_data}
-
     return {"status": True, "invalid_data": invalid_data}

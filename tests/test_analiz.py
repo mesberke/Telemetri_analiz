@@ -1,8 +1,9 @@
-import pytest  # noqa: F401, I001
 import json
-from src.analiz import calc_top_values, find_low_battery_time, find_over_speed , get_data # type: ignore
+
+import pytest
+from src.analiz import calc_top_values, find_low_battery_time, find_over_speed, get_data  # type: ignore
 from src.okuyucu import read_data
-from src.yazici import write_json,write_file  # type: ignore
+from src.yazici import write_file, write_json  # type: ignore
 
 DATA = {
     "zaman": [
@@ -38,7 +39,6 @@ CSV_DATA = (
     "2026-11-22 25:61:00,26.5,3.0,80\n"       # BOZUK 8: imkansız saat
     "2026-11-22 10:09:30,26.6,1.8,79\n"       # geçerli
 )
-
 
 def test_normal_data(tmp_path):
 
@@ -82,6 +82,7 @@ def test_normal_data(tmp_path):
             DATA["zaman"], DATA["sicaklik"], DATA["hiz"], DATA["batarya"]
         )
     ]
+
     csv_file = tmp_path / "normal.csv"
     csv_file.write_text("\n".join(lines) + "\n", encoding="utf-8")
     data, undefined = read_data(csv_file)
@@ -169,8 +170,6 @@ def test_empty_data(tmp_path):
     with pytest.raises(ValueError):
         read_data(empty_file)
 
-    
-
     # tüm satırlar bozuk: yine boş veri ve atlanan sayısı
     corrupted = tmp_path / "corrupted.csv"
     corrupted.write_text(
@@ -178,6 +177,7 @@ def test_empty_data(tmp_path):
         "bozuk-tarih,abc,abc,abc\n"
         "2026-11-22 10:00:00,24.5,,98\n"
     )
+    
     data, undefined = read_data(corrupted)
     assert undefined == 2
     assert data == empty_data

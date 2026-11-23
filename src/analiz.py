@@ -1,10 +1,8 @@
+import logging
 from builtins import len
 from statistics import mean
-import logging
-
 
 logger = logging.getLogger(__name__)
-
 
 def calc_top_values(veriler):
     top_values = {
@@ -12,6 +10,7 @@ def calc_top_values(veriler):
         "min_values": {"zaman": 0, "sicaklik": 0, "hiz": 0, "batarya": 0},
         "mean_values": {"sicaklik": 0, "hiz": 0, "batarya": 0},
     }
+
     if veriler is None or len(veriler) <= 0:
         logger.warning("hicbir veri okunmadi Lenght veri : %d",len(veriler))
         return top_values
@@ -28,12 +27,10 @@ def calc_top_values(veriler):
             top_values["mean_values"][key] = round(mean(veriler[key]), 3)
     return top_values
 
-
 def find_low_battery_time(veriler):
     return next(
         (x for x, y in zip(veriler["zaman"], veriler["batarya"]) if y < 20), None
     )
-
 
 def find_over_speed(veriler, esik_deger):
     return [time for time, speed in zip(veriler["zaman"],veriler["hiz"]) if speed > esik_deger]

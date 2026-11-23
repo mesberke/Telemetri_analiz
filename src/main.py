@@ -1,13 +1,10 @@
 import argparse
-from builtins import float
+import logging
 from pathlib import Path
 
 from .analiz import get_data
 from .okuyucu import read_data
-from .yazici import write_file
-from .yazici import write_json
-
-import logging
+from .yazici import write_file, write_json
 
 logger = logging.getLogger(__name__)
 
@@ -20,8 +17,10 @@ def main():
 
     input = Path(args.input)
     output = Path(args.output)
+
     path = output / "program.log"
     path.parent.mkdir(parents=True,exist_ok=True)
+
     logging.basicConfig(
         filename=output / "program.log",
         level=logging.INFO,
@@ -30,6 +29,7 @@ def main():
         encoding="utf-8",
     )
     logger.info("Hız eşiği: %s", args.max)
+
     try:
         logger.info("Okunan dosya: %s", input)
         data, undefined_data = read_data(path=input)
@@ -47,13 +47,12 @@ def main():
     output_data = get_data(sensor_values=data, esik_deger=args.max)
     output_data.update({"undefined": undefined_data})
     logger.info("Okunan satır: %d, atlanan satır: %d", len(data["zaman"]), undefined_data)
+
     write_file(data=output_data, path=output / "output.txt")
     write_json(data=output_data, path=output / "output.json")
     logger.info("Çıktı yazıldı: %s", output)
 
-
     return True
-
 
 if __name__ == "__main__":
     main()

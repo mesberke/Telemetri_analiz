@@ -1,7 +1,9 @@
 import json
 from pathlib import Path
 
+
 def write_file(data, path: Path):
+
     path.parent.mkdir(parents=True, exist_ok=True)
     try:
         txt = report(data=data)
@@ -15,6 +17,7 @@ def write_file(data, path: Path):
 
 
 def write_json(data, path : Path):
+
     path.parent.mkdir(parents=True, exist_ok=True)
     try:
         with open(path, encoding="utf-8", mode="w") as f:
@@ -24,10 +27,8 @@ def write_json(data, path : Path):
     except FileNotFoundError as e:
         raise FileNotFoundError(f"Dosya bulunamadı : {e}")
 
-
     print("Islem basarili oldu dosyaya veri yazildi")
     return True
-
 
 def report(data):
     top = data["top_values"]
@@ -38,6 +39,7 @@ def report(data):
         ("Minimum değerler", "min_values"),
         ("Ortalama değerler", "mean_values"),
     )
+    
     for head, key in sections:
         lines.append(head)
         for row, value in top[key].items():
