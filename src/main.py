@@ -1,5 +1,6 @@
 import argparse
 import logging
+import tracemalloc
 from pathlib import Path
 
 from .analiz import get_data
@@ -53,6 +54,13 @@ def main():
     logger.info("Çıktı yazıldı: %s", output)
 
     return True
+
+def trace_memory(fonc,path):
+    tracemalloc.start()
+    data = fonc(path)
+    _,peak = tracemalloc.get_traced_memory()
+    tracemalloc.stop()
+    return data,peak / 1024 / 1024
 
 if __name__ == "__main__":
     main()
