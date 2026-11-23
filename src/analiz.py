@@ -1,5 +1,9 @@
 from builtins import len
 from statistics import mean
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 def calc_top_values(veriler):
@@ -9,6 +13,7 @@ def calc_top_values(veriler):
         "mean_values": {"sicaklik": 0, "hiz": 0, "batarya": 0},
     }
     if veriler is None or len(veriler) <= 0:
+        logger.warning("hicbir veri okunmadi Lenght veri : %d",len(veriler))
         return top_values
     
     for key in veriler.keys():  # noqa: SIM118
@@ -38,7 +43,6 @@ def get_data(esik_deger,sensor_values):
     top_values = calc_top_values(veriler=sensor_values)
     over_speed_times = find_over_speed(veriler=sensor_values, esik_deger=esik_deger)
     low_battery_time = find_low_battery_time(sensor_values)
-
     return {
         "top_values": top_values,
         "over_speed_time": over_speed_times,

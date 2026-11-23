@@ -1,7 +1,6 @@
 import json
 from pathlib import Path
 
-
 def write_file(data, path: Path):
     path.parent.mkdir(parents=True, exist_ok=True)
     try:
