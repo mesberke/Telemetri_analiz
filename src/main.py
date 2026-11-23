@@ -46,7 +46,7 @@ def main():
     output_data.update({"undefined": undefined_data})
     logger.info("Okunan satır: %d, atlanan satır: %d", len(data["zaman"]), undefined_data)
     write_file(data=output_data, path=output / "output.txt")
-    write_json(data=data, path=output / "output.json")
+    write_json(data=output_data, path=output / "output.json")
     logger.info("Çıktı yazıldı: %s", output)
 
 
