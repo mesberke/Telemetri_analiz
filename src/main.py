@@ -4,7 +4,7 @@ import tracemalloc
 from pathlib import Path
 
 from .analiz import get_data
-from .okuyucu import read_data
+from .okuyucu import read_data ,load_data_all , load_data
 from .yazici import write_file, write_json
 
 logger = logging.getLogger(__name__)
@@ -21,6 +21,9 @@ def main():
 
     path = output / "program.log"
     path.parent.mkdir(parents=True,exist_ok=True)
+
+    if test(path=input):
+        return
 
     logging.basicConfig(
         filename=output / "program.log",
@@ -61,6 +64,14 @@ def trace_memory(fonc,path):
     _,peak = tracemalloc.get_traced_memory()
     tracemalloc.stop()
     return data,peak / 1024 / 1024
+
+def test(path):
+    d1,p1 = trace_memory(fonc=load_data,path=path)
+    d2,p2 = trace_memory(fonc=load_data_all,path=path)
+    print(f"satır satır : sonuç={d1}, tepe bellek={p1:.1f} MB")
+    print(f"readLines : sonuç={d2}, tepe bellek={p2:.1f} MB")
+    print(f"Fark: yaklaşık {p2 / p1:.0f} kat")
+    return False
 
 if __name__ == "__main__":
     main()
