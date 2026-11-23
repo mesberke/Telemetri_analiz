@@ -38,8 +38,8 @@ def read_data(path):  # veriyi parcalarına ayırır ve kontrole hazir hale geti
     invalid_data = 0
     for index, data in enumerate(logs):
 
-        if not (x := control_data(values=data, invalid_data=invalid_data, index=index + 2))["status"]:  # return status or return invalid_data
-            invalid_data = x["invalid_data"]
+        if not (x := control_data(values=data, index=index + 2)):  # return status or return invalid_data
+            invalid_data +=1
             continue
 
         append_sensor_values(sensor_values=sensor_values, values=data)  # noqa: PERF40
@@ -52,12 +52,11 @@ def append_sensor_values(sensor_values, values):  # ayrilan veriyi sensor_values
 
     return sensor_values
 
-def control_data(values, invalid_data, index):  # verilerin sayısal olarak dogrulugunu kontrol eder
+def control_data(values, index):  # verilerin sayısal olarak dogrulugunu kontrol eder
 
     if (values is None) or (len(values) != 4):
         logger.warning("Satir : %d  Beklenen 4 gelen: %d", index, len(values))
-        invalid_data += 1
-        return {"status": False, "invalid_data": invalid_data}
+        return False
 
     temp = values["sicaklik"]
     speed = values["hiz"]
@@ -73,8 +72,7 @@ def control_data(values, invalid_data, index):  # verilerin sayısal olarak dogr
             values["zaman"],
             error,
         )
-        invalid_data += 1
-        return {"status": False, "invalid_data": invalid_data}
+        return False
 
     if any(x is None  for x in (battery, speed, temp)):
         logger.warning(
@@ -85,8 +83,7 @@ def control_data(values, invalid_data, index):  # verilerin sayısal olarak dogr
             temp,
             speed,
         )
-        invalid_data += 1
-        return {"status": False, "invalid_data": invalid_data}
+        return False
 
     try:
         f_battery = float(battery)
@@ -101,19 +98,16 @@ def control_data(values, invalid_data, index):  # verilerin sayısal olarak dogr
             temp,
             speed,
         )
-        invalid_data += 1
-        return {"status": False, "invalid_data": invalid_data}
+        return False
 
     if any(not math.isfinite(x) for x in (f_battery, f_speed, f_temp)):
         logger.warning("Degerler sadece sayi olmalidir :" \
         " batarya : %s , sicaklik : %s , hiz : %s",f_battery,f_temp,f_speed)
-        invalid_data += 1
-        return {"status": False, "invalid_data": invalid_data}
+        return False
     
     if f_battery < 0:
         logger.warning(
             "Satir : %d  Batarya degeri negatif  Batarya : %d", index, f_battery
         )
-        invalid_data += 1
-        return {"status": False, "invalid_data": invalid_data}
-    return {"status": True, "invalid_data": invalid_data}
+        return False
+    return True
