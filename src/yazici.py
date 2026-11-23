@@ -16,7 +16,7 @@ def write_file(data, path: Path):
         raise FileNotFoundError(f"Dosya bulunamadı : {e}")
 
 
-def write_json(data, path : Path):
+def write_json(data, path: Path):
 
     path.parent.mkdir(parents=True, exist_ok=True)
     try:
@@ -30,6 +30,7 @@ def write_json(data, path : Path):
     print("Islem basarili oldu dosyaya veri yazildi")
     return True
 
+
 def report(data):
     top = data["top_values"]
     lines = ["TELEMETRİ ANALİZ RAPORU", "=" * 40]
@@ -39,7 +40,7 @@ def report(data):
         ("Minimum değerler", "min_values"),
         ("Ortalama değerler", "mean_values"),
     )
-    
+
     for head, key in sections:
         lines.append(head)
         for row, value in top[key].items():
