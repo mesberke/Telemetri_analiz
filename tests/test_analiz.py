@@ -29,4 +29,14 @@ def test_normal_data():
 def test_corrupted_data():
     pass
 def test_empty_data():
-    pass
+    empty_data = {"zaman" : [],"sicaklik":[],"hiz":[],"batarya":[]}
+    top_values = calc_top_values(empty_data)
+    assert top_values["max_values"]["hiz"] == 0
+    assert top_values["max_values"]["batarya"] == 0
+    assert top_values["max_values"]["sicaklik"] ==0
+    assert top_values["min_values"]["hiz"] == 0
+    assert top_values["min_values"]["batarya"] == 0     
+    assert top_values["min_values"]["sicaklik"] == 0
+    assert find_low_battery_time(empty_data) == None
+    assert find_over_speed(empty_data,6.7) == []
+    
