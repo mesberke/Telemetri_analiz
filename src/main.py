@@ -40,6 +40,7 @@ def main():
 
     if args.max < 0:
         print("esik deger 0 dan kucuk olamaz")
+        logger.error("Esik deger 0 dan kucuk girildi. Esik Deger : %d",)
         return False
     
 
