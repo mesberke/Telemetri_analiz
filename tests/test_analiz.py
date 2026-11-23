@@ -26,8 +26,33 @@ def test_normal_data():
     assert find_low_battery_time(VERI) == "2026-11-22 10:04:00"
     assert find_over_speed(VERI,6.7) == [ "2026-11-22 10:01:30", "2026-11-22 10:02:00"]
 
-def test_corrupted_data():
-    pass
+def test_corrupted_data(tmp_path):
+    file = tmp_path / "test.csv"
+    file.write_text(
+        "zaman,sicaklik,hiz,batarya\n"
+        "2026-11-22 10:00:00,24.5,3.2,98\n"      # geçerli
+        "2026-11-22 10:00:30,25.1,4.0,97\n"      # geçerli
+        "2026-11-22 10:01:00,25.4,,96\n"         # boş hız
+        "2026-11-22 10:01:30,abc,5.0,95\n"       # sayı yerine harf
+        "2026-11-22 10:02:00,26.0,3.3\n"         # eksik sütun
+        "2026-11-22 10:02:30,26.2,3.5,94,7\n"    # fazla sütun
+        "2026-11-22 10:03:00,26.4,3.1,-5\n"      # negatif batarya
+        "bozuk-tarih,26.5,3.0,93\n"              # geçersiz tarih
+        "2026-13-45 10:04:00,26.5,3.0,93\n"      # imkansız tarih
+        "\n"                                     # boş satır
+        "2026-11-22 10:05:30,27.0,3.4,92\n",     # geçerli
+        encoding="utf-8",
+    )
+    data,undefined = read_data(file)
+    assert undefined == 8
+    assert len(data["zaman"]) == 3
+    assert data["zaman"] == [
+        "2026-11-22 10:00:00",
+        "2026-11-22 10:00:30",
+        "2026-11-22 10:05:30",
+    ]
+    assert data["batarya"] == [98, 97, 92]
+    
 def test_empty_data(tmp_path):
     empty_data = {"zaman" : [],"sicaklik":[],"hiz":[],"batarya":[]}
     top_values = calc_top_values(empty_data)
