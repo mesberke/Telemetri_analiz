@@ -3,14 +3,10 @@ from pathlib import Path
 
 
 def write_file(data, path: Path):
-    file = path
-    if not path.exists():
-        output = Path("output1")
-        output.mkdir(parents=True, exist_ok=True)
-        file = output / "output.txt"
+    path.parent.mkdir(parents=True, exist_ok=True)
     try:
         txt = report(data=data)
-        with open(file, encoding="utf-8", mode="w") as f:
+        with open(path, encoding="utf-8", mode="w") as f:
             f.write(txt)
         print("Islem basarili oldu dosyaya veri yazildi")
     except IsADirectoryError as e:
@@ -19,19 +15,16 @@ def write_file(data, path: Path):
         raise FileNotFoundError(f"Dosya bulunamadı : {e}")
 
 
-def write_json(data, path):
-    file = path
-    if not path.exists():
-        output = Path("output1")
-        output.mkdir(parents=True, exist_ok=True)
-        file = output / "output.json"
+def write_json(data, path : Path):
+    path.parent.mkdir(parents=True, exist_ok=True)
     try:
-        with open(file, encoding="utf-8", mode="w") as f:
+        with open(path, encoding="utf-8", mode="w") as f:
             f.write(json.dumps(data, indent=2, ensure_ascii=False))
     except IsADirectoryError as e:
         raise IsADirectoryError(f"verilen adres bir dosya yolu : {e}")
     except FileNotFoundError as e:
         raise FileNotFoundError(f"Dosya bulunamadı : {e}")
+
 
     print("Islem basarili oldu dosyaya veri yazildi")
     return True
