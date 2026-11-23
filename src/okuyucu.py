@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 def load_data(path):
 
     try:
-        with open(path, mode="r") as csv_file:
+        with open(path,encoding="utf-8", mode="r") as csv_file:
             rows = []
             csv_reader = csv.DictReader(csv_file)
             line_count = 0
@@ -44,7 +44,6 @@ def read_data(path):  # veriyi parcalarına ayırır ve kontrole hazir hale geti
             invalid_data = x["invalid_data"]
             continue
         append_sensor_values(sensor_values=sensor_values, values=data)  # noqa: PERF40
-    print(sensor_values)
     return sensor_values, (invalid_data)  # sensor verileri + atlanan satır sayısı
 
 
