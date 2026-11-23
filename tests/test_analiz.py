@@ -164,6 +164,11 @@ def test_empty_data(tmp_path):
     with pytest.raises(ValueError):
         read_data(with_only_head)
 
+    empty_lines = tmp_path / "empty_lines.csv"
+    empty_lines.write_text("zaman,sicaklik,hiz,batarya\n\n\n", encoding="utf-8")
+    with pytest.raises(ValueError):
+        read_data(empty_lines)
+    
     # tamamen boş dosya (0 byte)
     empty_file = tmp_path / "empty.csv"
     empty_file.write_text("")
