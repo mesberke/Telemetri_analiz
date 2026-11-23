@@ -22,6 +22,7 @@ def main():
     output = Path(args.output)
 
     logging.basicConfig(
+        output.parent.mkdir(parents=True, exist_ok=True),
         filename=output / "program.log",
         level=logging.INFO,
         filemode="w",
