@@ -1,0 +1,55 @@
+zaman,sicaklik,hiz,batarya
+2026-11-22 10:00:00,24.5,3.2,98
+2026-11-22 10:00:30,25.1,4.0,97
+2026-11-22 10:01:00,25.4,,96
+2026-11-22 10:01:30,abc,5.0,95
+2026-11-22 10:02:00,26.0,3.3
+2026-11-22 10:02:30,26.2,3.5,94,7
+2026-11-22 10:03:00,26.4,3.1,-5
+bozuk-tarih,26.5,3.0,93
+2026-13-45 10:04:00,26.5,3.0,93
+
+2026-11-22 10:05:30,27.0,3.4,92TELEMETRİ ANALİZ RAPORU
+========================================
+Maksimum değerler
+  zaman     : 2026-11-22 10:05:30
+  sicaklik  : 27.0
+  hiz       : 4.0
+  batarya   : 98.0
+----------------------------------------
+Minimum değerler
+  zaman     : 2026-11-22 10:00:00
+  sicaklik  : 24.5
+  hiz       : 3.2
+  batarya   : 92.0
+----------------------------------------
+Ortalama değerler
+  sicaklik  : 25.533
+  hiz       : 3.533
+  batarya   : 95.667
+----------------------------------------
+Batarya %20 altına ilk düştüğü zaman: None
+Hız eşiğini aşan satır sayısı: 0
+Atlanan satır sayısı: 8
+TELEMETRİ ANALİZ RAPORU
+========================================
+Maksimum değerler
+  zaman     : 2026-11-22 10:00:30
+  sicaklik  : 25.1
+  hiz       : 4.0
+  batarya   : 98.0
+----------------------------------------
+Minimum değerler
+  zaman     : 2026-11-22 10:00:00
+  sicaklik  : 24.5
+  hiz       : 3.2
+  batarya   : 97.0
+----------------------------------------
+Ortalama değerler
+  sicaklik  : 24.8
+  hiz       : 3.6
+  batarya   : 97.5
+----------------------------------------
+Batarya %20 altına ilk düştüğü zaman: None
+Hız eşiğini aşan satır sayısı: 0
+Atlanan satır sayısı: 30
