@@ -12,11 +12,7 @@ def load_data(path):
         with open(path,encoding="utf-8", mode="r") as csv_file:
             rows = []
             csv_reader = csv.DictReader(csv_file)
-            line_count = 0
-
             for row in csv_reader:
-                if line_count == 0:
-                    line_count += 1
                 rows.append(row)
         return rows
     except FileNotFoundError as e:
