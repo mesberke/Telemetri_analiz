@@ -1,6 +1,5 @@
-import re
+
 from datetime import datetime
-from pathlib import Path
 import logging
 import csv
 
@@ -72,9 +71,9 @@ def control_data(
         date = datetime.strptime(values["zaman"].split()[0], "%Y-%m-%d")
         time = datetime.strptime(values["zaman"].split()[1], "%H:%M:%S")
 
-    except ValueError as error:
+    except (ValueError,IndexError) as error:
         logger.warning(
-            "Satir : %d  date veya time hatalı data: %s error  : %s",
+            "Satir : %d  date veya time hatalı ya da bos data: %s error  : %s",
             index,
             values["zaman"],
             error,
@@ -82,7 +81,7 @@ def control_data(
         invalid_data += 1
         return {"status": False, "invalid_data": invalid_data}
 
-    if any(x is None for x in (battery, speed, temp)):
+    if any(x is None  for x in (battery, speed, temp)):
         logger.warning(
             "Satir : %d  batarya,hiz,sicaklıktan herhangi biri boş olamaz batarya : %s , sicaklik : %s , hiz : %s",
             index,
