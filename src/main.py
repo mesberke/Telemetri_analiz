@@ -34,7 +34,7 @@ def main():
         data, undefined_data = read_data(path=input)
         
     except (FileNotFoundError, ValueError) as e:
-        print(e)
+        logger.error("Dosya acilirken hata ile karsilasildi  Hata :  %s",e)
         return False
 
     if args.max < 0:

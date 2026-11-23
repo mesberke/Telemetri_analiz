@@ -15,7 +15,7 @@ def load_data(path):
                 raise ValueError("Dosya boş: başlık satırı yok")
             return f.readlines() 
     except FileNotFoundError as e:
-        logger.warning("dosya yolu bulunamadı",e)
+        logger.error("Dosya yolu bulunamadı Hata :  %s",e)
         raise FileNotFoundError(f"Girdi dosyası bulunamadı: {path}") from e
 
 
