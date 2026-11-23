@@ -2,6 +2,7 @@
 from datetime import datetime
 import logging
 import csv
+import math
 
 
 logger = logging.getLogger(__name__)
@@ -107,6 +108,10 @@ def control_data(
         invalid_data += 1
         return {"status": False, "invalid_data": invalid_data}
 
+    if any(not math.isfinite(x) for x in (f_battery, f_speed, f_temp)):
+        logger.error("Degerler sadece sayi olmalidir : batarya : %s , sicaklik : %s , hiz : %s",f_battery,f_temp,f_speed)
+        invalid_data += 1
+        return {"status": False, "invalid_data": invalid_data}
     if f_battery < 0:
         logger.warning(
             "Satir : %d  Batarya degeri negatif  Batarya : %d", index, f_battery
