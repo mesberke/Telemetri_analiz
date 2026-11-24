@@ -11,8 +11,8 @@ def calc_top_values(veriler):
         "mean_values": {"sicaklik": 0, "hiz": 0, "batarya": 0},
     }
 
-    if veriler is None :
-        logger.warning("hicbir veri okunmadi Lenght veri : %d", len(veriler))
+    if not  veriler:
+        logger.warning("hicbir veri okunmadi Lenght veri : %d", veriler)
         return top_values
 
     for key in veriler.keys():  # noqa: SIM118
