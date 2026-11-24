@@ -3,7 +3,7 @@ import logging
 from pathlib import Path
 
 from .analiz import get_data
-from .okuyucu import load_data, read_data
+from .okuyucu import read_data
 from .yazici import write_file, write_json
 
 logger = logging.getLogger(__name__)
