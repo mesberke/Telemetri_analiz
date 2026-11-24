@@ -12,7 +12,6 @@ def load_data(path):
         with open(path, encoding="utf-8", mode="r") as csv_file:
             rows = []
             csv_reader = csv.DictReader(csv_file)
-            sayac = 0
             for row in csv_reader:
                 rows.append(row)
         return rows
@@ -34,9 +33,7 @@ def read_data(path):  # veriyi parcalarına ayırır ve kontrole hazir hale geti
 
     invalid_data = 0
     for index, data in enumerate(logs):
-        if not (
-            x := control_data(values=data, index=index + 2)
-        ):  # return status or return invalid_data
+        if not control_data(values=data, index=index + 2):  # return status or return invalid_data
             invalid_data += 1
             continue
 
@@ -90,7 +87,7 @@ def control_data(values, index):  # verilerin sayısal olarak dogrulugunu kontro
         f_battery = float(battery)
         f_speed = float(speed)
         f_temp = float(temp)
-    except ValueError as error:
+    except ValueError :
         logger.warning(
             "Satir : %d  batarya,hiz,sicaklik degerlerinden biri veya birkaci floata donusturulemiyor "
             "batarya : %s , sicaklik : %s , hiz : %s",
