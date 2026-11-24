@@ -11,7 +11,7 @@ def calc_top_values(veriler):
         "mean_values": {"sicaklik": 0, "hiz": 0, "batarya": 0},
     }
 
-    if veriler is None or len(veriler) <= 0:
+    if veriler is None :
         logger.warning("hicbir veri okunmadi Lenght veri : %d", len(veriler))
         return top_values
 
