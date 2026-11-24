@@ -6,15 +6,6 @@ from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
-def load_data_all(path):
-    try:
-        with open(path,encoding="utf-8",mode="r") as csv_file:
-            lines = csv_file.readlines()
-            return len(lines)
-    except FileNotFoundError as e:
-        logger.error("Dosya yolu bulunamadı Hata :  %s", e)
-        raise FileNotFoundError(f"Girdi dosyası bulunamadı: {path}") from e 
-
 def load_data(path):
 
     try:
@@ -23,8 +14,8 @@ def load_data(path):
             csv_reader = csv.DictReader(csv_file)
             sayac = 0
             for row in csv_reader:
-                sayac +=1
-        return sayac
+                rows.append(row)
+        return rows
     except FileNotFoundError as e:
         logger.error("Dosya yolu bulunamadı Hata :  %s", e)
         raise FileNotFoundError(f"Girdi dosyası bulunamadı: {path}") from e
