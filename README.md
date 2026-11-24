@@ -8,8 +8,8 @@
 
 2. venv kurulumu ve venv başlatımı :
     sanal makine başlatmak istediğimiz klasörde iken terminali açıyoruz
-    ve python3 -m .venv venv kodunu yazıyoruz biraz bekledikten sonra kurulum tamamlanıyor
-    vevn active etmek için gene aynı terminalde source .venv/bin/activate yazarak venv başlatıyoruz
+    ve python3 -m venv .venv kodunu yazıyoruz biraz bekledikten sonra kurulum tamamlanıyor
+    venv active etmek için gene aynı terminalde source .venv/bin/activate yazarak venv başlatıyoruz
 
     yeni paketlerin kurulumu için pip install paket_adi paketlerin listesi için pip list ve çıkmak için ise deactivate
     
@@ -22,4 +22,8 @@
 5. Java ve C den iki fark:
     söz dizimi olarak çok daha rahatlık sunması c de satırlarca süren kod satırları burada sadece 4-5 tane fonk ile çözülebilir hale geliyor
     boşluk kolaylığı böylece parantez arama derdi bitiyor eklentiler ile renklere bakarak hangi blok içerisinde olduğunu anlayabiliyorsunuz
+    
+6. Test başlatmak için:
+    öncelikle 2. adım ile venvyi başlatıyoruz sonra python -m pytest -v yazınca testimiz başlıyor ve sonuçlar ekrana geliyor
+
 
