@@ -1,6 +1,8 @@
 import json
+import logging
 from pathlib import Path
 
+logger = logging.getLogger(__name__)
 
 def write_file(data, path: Path):
 
@@ -14,6 +16,7 @@ def write_file(data, path: Path):
         raise IsADirectoryError(f"verilen adres bir dosya yolu : {e}")
     except FileNotFoundError as e:
         raise FileNotFoundError(f"Dosya bulunamadı : {e}")
+    logger.info("Islem basarili oldu dosyaya veri yazildi konum : %s",path)
 
 
 def write_json(data, path: Path):
@@ -27,8 +30,7 @@ def write_json(data, path: Path):
     except FileNotFoundError as e:
         raise FileNotFoundError(f"Dosya bulunamadı : {e}")
 
-    print("Islem basarili oldu dosyaya veri yazildi")
-    return True
+    logger.info("Islem basarili oldu dosyaya veri yazildi konum : %s",path)
 
 
 def report(data):
