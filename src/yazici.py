@@ -11,7 +11,6 @@ def write_file(data, path: Path):
         txt = report(data=data)
         with open(path, encoding="utf-8", mode="w") as f:
             f.write(txt)
-        print("Islem basarili oldu dosyaya veri yazildi")
     except IsADirectoryError as e:
         raise IsADirectoryError(f"verilen adres bir dosya yolu : {e}")
     except FileNotFoundError as e:
