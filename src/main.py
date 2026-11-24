@@ -3,7 +3,6 @@ import logging
 from pathlib import Path
 
 from .analiz import get_data
-from .karsilastir import test
 from .okuyucu import load_data, read_data
 from .yazici import write_file, write_json
 
