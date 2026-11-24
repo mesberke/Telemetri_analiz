@@ -43,7 +43,10 @@ CSV_DATA = (
     "2026-13-45 10:08:00,26.5,3.0,82\n"  # BOZUK 7: imkansız tarih
     "2026-11-22 10:08:30,26.8,2.2,81\n"  # geçerli
     "2026-11-22 25:61:00,26.5,3.0,80\n"  # BOZUK 8: imkansız saat
-    "2026-11-22 10:09:30,26.6,1.8,79\n"  # geçerli
+    "2026-11-22 10:09:30,26.6,1.8,79\n"
+    "2026-11-22 10:00:00,nan,3.2,98\n" # nan hatası
+    "2026-11-22 10:00:00,24.5,inf,98\n" # inf hatasu
+    "2026-11-22,24.5,3.2,98\n"   # eksik saat  hatası
 )
 
 
@@ -126,7 +129,7 @@ def test_corrupted_data(tmp_path):
     data, undefined = read_data(file)
 
     # sayılar
-    assert undefined == 8
+    assert undefined == 11
     assert len(data["zaman"]) == 12
 
     # tüm sütunlar aynı uzunlukta olmalı
