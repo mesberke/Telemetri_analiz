@@ -12,7 +12,7 @@ def calc_top_values(veriler):
     }
 
     if not  veriler:
-        logger.warning("hicbir veri okunmadi Lenght veri : %d", veriler)
+        logger.warning("hicbir veri okunmadi Lenght veri : %s", veriler)
         return top_values
 
     for key in veriler.keys():  # noqa: SIM118
