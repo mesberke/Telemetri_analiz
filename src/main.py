@@ -3,7 +3,8 @@ import logging
 from pathlib import Path
 
 from .analiz import get_data
-from .okuyucu import read_data
+from .karsilastir import test
+from .okuyucu import load_data, read_data
 from .yazici import write_file, write_json
 
 logger = logging.getLogger(__name__)
@@ -20,8 +21,7 @@ def main():
     output = Path(args.output)
 
     path = output / "program.log"
-    path.parent.mkdir(parents=True, exist_ok=True)
-
+    path.parent.mkdir(parents=True,exist_ok=True)
     logging.basicConfig(
         filename=output / "program.log",
         level=logging.INFO,
@@ -55,6 +55,7 @@ def main():
     logger.info("Çıktı yazıldı: %s", output)
 
     return True
+
 
 
 if __name__ == "__main__":

@@ -12,6 +12,7 @@ def load_data(path):
         with open(path, encoding="utf-8", mode="r") as csv_file:
             rows = []
             csv_reader = csv.DictReader(csv_file)
+            sayac = 0
             for row in csv_reader:
                 rows.append(row)
         return rows
