@@ -1,5 +1,4 @@
 import logging
-from builtins import len
 from statistics import mean
 
 logger = logging.getLogger(__name__)
